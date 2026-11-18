@@ -1,5 +1,5 @@
 __pycache__/
-tts/
+tts
 out/
 parts/
 *.mp4
