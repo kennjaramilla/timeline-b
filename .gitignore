@@ -1,0 +1,12 @@
+__pycache__/
+tts/
+out/
+parts/
+*.mp4
+*.wav
+*.jpg
+timeline.json
+*.log
+list.txt
+reelA/
+reelB/
