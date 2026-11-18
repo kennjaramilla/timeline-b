@@ -13,6 +13,7 @@ Every video opens in Timeline A (what is real), forks to Timeline B (one thing c
 | `brand.py` | Profile picture, Facebook cover and YouTube banner (`assets/brand/` has the exports) |
 | `audio_short.py` | Music + effects + voice mix for short pieces such as Reels |
 | `ep01_edsa/` | Episode 1, *What if EDSA was redesigned from scratch?* (full video and two Reels) |
+| `ep02_moon/` | Episode 2, *What if the Moon disappeared?* Use this one as the template: its pictures (`vis_*`) are separate from its text, so Reels reuse them |
 | `sample_ice/` | The first test video, *What if all the ice on Earth melted?* |
 
 Inside an episode folder:
@@ -34,20 +35,21 @@ Fonts used: Archivo Black, Inter, Anonymous Pro (paths are at the top of `tl.py`
 
 ## Make an episode
 
-1. Copy `ep01_edsa/` to a new folder, for example `ep02_moon/`.
+1. Copy `ep02_moon/` to a new folder, for example `ep03_ice/`.
 2. Research first. Every number needs a source; put the sources in `SOURCES` in `script.py`.
 3. Rewrite `S` in `script.py`. Keep one idea per piece and give each piece a cue key.
 4. `python3 script.py` records the voice and writes `timeline.json` with the cue times.
-5. Write the scenes in `render2.py`. Time everything with `cl("key", "scene")`, never with fixed seconds.
-6. Check frames before rendering: `python3 render2.py stills check.jpg 4.5 30 60`.
+5. Write the scenes in `render.py`: a `vis_*()` picture inside the centre box (x 420-1500, y 330-900) and an `sc_*()` that adds the text. Time everything with `cl("key", "scene")`, never with fixed seconds.
+6. Check frames before rendering: `python3 render.py stills check.jpg 4.5 30 60`.
 7. Render in two halves (two CPU cores), then join:
    ```
-   python3 render2.py part 0 N/2 parts/a.mp4 &  python3 render2.py part N/2 N parts/b.mp4
+   python3 render.py part 0 N/2 parts/a.mp4 &  python3 render.py part N/2 N parts/b.mp4
    python3 audio.py
    ffmpeg -f concat -safe 0 -i list.txt -c copy silent.mp4
    ffmpeg -i silent.mp4 -i mix.wav -map 0:v -map 1:a -c:v copy -c:a aac out.mp4
    ```
-8. Reels: edit `REELS` in `reels.py`, then `python3 reels.py voice A`, `python3 reels.py render A reelA/v.mp4`, and mix with `audio_short.py` from inside the reel folder.
+8. Thumbnail: `python3 thumb.py out/`.
+9. Reels: edit `REELS` in `reels.py`, then `python3 reels.py voice A`, `python3 reels.py render A reelA/v.mp4`, and mix with `audio_short.py` from inside the reel folder.
 
 ## Channel rules
 
@@ -67,7 +69,7 @@ Fonts used: Archivo Black, Inter, Anonymous Pro (paths are at the top of `tl.py`
 ## Episode list
 
 1. Philippines: What if EDSA was redesigned from scratch? (done)
-2. World: What if the Moon disappeared?
+2. World: What if the Moon disappeared? (done)
 3. Philippines: What if all the ice melted, and what happens to the Philippines?
 4. World: What if the internet went down for a year?
 5. Philippines: What if the Big One hit Metro Manila?
